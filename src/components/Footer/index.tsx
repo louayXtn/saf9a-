@@ -32,7 +32,7 @@ const Footer = () => {
                     />
                   </svg>
                 </span>
-                685 Market Street,Las Vegas, LA 95820,United States.
+                6020 El hamma,Gabes,Tunisia.
               </li>
 
               <li>
@@ -61,7 +61,7 @@ const Footer = () => {
                       fill="#3C50E0"
                     />
                   </svg>
-                  (+099) 532-786-9843
+                  (+216) 123456789
                 </a>
               </li>
 
@@ -237,34 +237,34 @@ const Footer = () => {
 
             <ul className="flex flex-col gap-3">
               <li>
-                <a className="ease-out duration-200 hover:text-blue" href="#">
+                <a className="ease-out duration-200 hover:text-blue" href="/quickLink/privacy-policy">
                   Privacy Policy
                 </a>
               </li>
-              <li>
+              {/* <li>
                 <a className="ease-out duration-200 hover:text-blue" href="#">
                   Refund Policy
                 </a>
-              </li>
+              </li> */}
               <li>
-                <a className="ease-out duration-200 hover:text-blue" href="#">
+                <a className="ease-out duration-200 hover:text-blue" href="/quickLink/terms-of-use">
                   Terms of Use
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-blue" href="#">
+                <a className="ease-out duration-200 hover:text-blue" href="/quickLink/FAQ">
                   FAQ’s
                 </a>
               </li>
               <li>
-                <a className="ease-out duration-200 hover:text-blue" href="#">
+                <a className="ease-out duration-200 hover:text-blue" href="/contact">
                   Contact
                 </a>
               </li>
             </ul>
           </div>
 
-          <div className="w-full sm:w-auto">
+          {/* <div className="w-full sm:w-auto">
             <h2 className="mb-7.5 text-custom-1 font-medium text-dark lg:text-right">
               Download App
             </h2>
@@ -328,7 +328,7 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
         {/* <!-- footer menu end --> */}
       </div>
@@ -338,7 +338,7 @@ const Footer = () => {
         <div className="max-w-[1170px] mx-auto px-4 sm:px-8 xl:px-0">
           <div className="flex gap-5 flex-wrap items-center justify-between">
             <p className="text-dark font-medium">
-              &copy; {year}. All rights reserved by PimjoLabs.
+              &copy; {year}. All rights reserved by zentaxCode.
             </p>
 
             <div className="flex flex-wrap items-center gap-4">

@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 
 import { useModalContext } from "@/app/context/QuickViewModalContext";
 import { AppDispatch, useAppSelector } from "@/redux/store";
-import { addItemToCart } from "@/redux/features/cart-slice";
+import { addItemToCart,  } from "@/redux/features/cart-slice";
 import { useDispatch } from "react-redux";
 import Image from "next/image";
 import { usePreviewSlider } from "@/app/context/PreviewSliderContext";
 import { resetQuickView } from "@/redux/features/quickView-slice";
-import { updateproductDetails } from "@/redux/features/product-details";
+import { updateproductDetails, updateActivePreview } from "@/redux/features/product-details";
+import { Product } from "@/types/product";
 
 const QuickViewModal = () => {
   const { isModalOpen, closeModal } = useModalContext();
@@ -20,27 +21,52 @@ const QuickViewModal = () => {
   // get the product data
   const product = useAppSelector((state) => state.quickViewReducer.value);
 
-  const [activePreview, setActivePreview] = useState(0);
-
+  // const [activePreview, setActivePreview] = useState("");
+  const [activePreview, setActivePreview] = useState("");
   // preview modal
-  const handlePreviewSlider = () => {
-    dispatch(updateproductDetails(product));
-
-    openPreviewModal();
-  };
+const handlePreviewSlider = () => {
+  dispatch(updateproductDetails({ ...product, activePreview })); // مرر الصورة الحالية
+  openPreviewModal();
+};
 
   // add to cart
-  const handleAddToCart = () => {
-    dispatch(
-      addItemToCart({
-        ...product,
-        quantity,
-      })
-    );
+  // add to cart
+const handleAddToCart = () => {
+  dispatch(
+    addItemToCart({
+      id: product.id ?? 0,              // لو عندك id محلي
+      productId: product._id!,          // من MongoDB
+      sellerId: product.createdBy._id,  // البائع من الـ backend
+      title: product.title,
+      price: product.price!,
+      discountedPrice: product.discountedPrice,
+      quantity: 1,
+      imgs: product.imgs,
+    })
+  );
 
-    closeModal();
-  };
+  closeModal();
+};
+//   const handleAddToCart = () => {
+//   const productWithQuantity: Product = {
+//     ...product,
+//     quantity,
+//   };
 
+//   dispatch(addItemToCart(productWithQuantity));
+//   closeModal();
+// }; 
+// const productWithQuantity: CartItem = {
+//   ...product,
+//   quantity,
+// };
+
+// dispatch(addItemToCart(productWithQuantity));
+  useEffect(() => {
+  if (isModalOpen) {
+    setActivePreview(product.imgs?.thumbnails?.[0] || "");
+  }
+}, [isModalOpen, product.imgs]);
   useEffect(() => {
     // closing modal while clicking outside
     function handleClickOutside(event) {
@@ -48,7 +74,7 @@ const QuickViewModal = () => {
         closeModal();
       }
     }
-
+   
     if (isModalOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
@@ -94,22 +120,47 @@ const QuickViewModal = () => {
             <div className="max-w-[526px] w-full">
               <div className="flex gap-5">
                 <div className="flex flex-col gap-5">
-                  {product.imgs.thumbnails?.map((img, key) => (
+                  {product.imgs?.thumbnails?.map((img, key) => (
                     <button
-                      onClick={() => setActivePreview(key)}
+                      onClick={() => {setActivePreview(img);dispatch(updateActivePreview(img))}}
+                      
                       key={key}
                       className={`flex items-center justify-center w-20 h-20 overflow-hidden rounded-lg bg-gray-1 ease-out duration-200 hover:border-2 hover:border-blue ${
-                        activePreview === key && "border-2 border-blue"
+                        activePreview === img && "border-2 border-blue"
                       }`}
                     >
                       <Image
-                        src={img || ""}
+                        src={img || "/placeholder-thumb.png"}
                         alt="thumbnail"
                         width={61}
                         height={61}
                         className="aspect-square"
                       />
-                    </button>
+                    </button>
+                  
+
+                  ))}
+
+
+                  {product.imgs?.previews?.map((img, key) => (
+                    <button
+                      onClick={() => {setActivePreview(img);dispatch(updateActivePreview(img))}}
+                      
+                      key={key}
+                      className={`flex items-center justify-center w-20 h-20 overflow-hidden rounded-lg bg-gray-1 ease-out duration-200 hover:border-2 hover:border-blue ${
+                        activePreview === img && "border-2 border-blue"
+                      }`}
+                    >
+                      <Image
+                        src={img || "/placeholder-thumb.png"}
+                        alt="thumbnail"
+                        width={61}
+                        height={61}
+                        className="aspect-square"
+                      />
+                    </button>
+                  
+
                   ))}
                 </div>
 
@@ -138,11 +189,13 @@ const QuickViewModal = () => {
                     </button>
 
                     <Image
-                      src={product?.imgs?.previews?.[activePreview]}
+                      src={activePreview || "/placeholder-thumb.png"}
                       alt="products-details"
                       width={400}
                       height={400}
                     />
+                    
+                    
                   </div>
                 </div>
               </div>
@@ -269,7 +322,7 @@ const QuickViewModal = () => {
 
                   <span>
                     <span className="font-medium text-dark"> 4.7 Rating </span>
-                    <span className="text-dark-2"> (5 reviews) </span>
+                    <span className="text-dark-2"> {product.reviews} reviews </span>
                   </span>
                 </div>
 
@@ -302,26 +355,42 @@ const QuickViewModal = () => {
                 </div>
               </div>
 
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has.
+              <p><span className="text-sm font-bold">Description: </span>
+                {product?.description && product.description.trim() !== ""
+                  ? product.description
+                  : "No description available"}
               </p>
+              <p className="text-xs text-gray-400 mt-1">
+                  <span className="text-sm font-bold">Added on: </span>
+                  {new Date(product.createdAt).toLocaleString()}
+                </p>
+              
+              <p className="mt-2 " ><span className="text-sm font-bold">Contact: </span> {product.contactInfo}</p>
 
-              <div className="flex flex-wrap justify-between gap-5 mt-6 mb-7.5">
+              <div className="flex flex-wrap justify-between gap-5 mt-2 mb-7.5">
                 <div>
                   <h4 className="font-semibold text-lg text-dark mb-3.5">
                     Price
                   </h4>
 
                   <span className="flex items-center gap-2">
+                    {product.discountedPrice ? (
+    <>
+
                     <span className="font-semibold text-dark text-xl xl:text-heading-4">
                       ${product.discountedPrice}
                     </span>
                     <span className="font-medium text-dark-4 text-lg xl:text-2xl line-through">
                       ${product.price}
                     </span>
+                     </>
+  ) : (
+    <span className="font-semibold text-dark text-xl xl:text-heading-4">${product.price}</span>
+  )}
+
                   </span>
                 </div>
+                
 
                 <div>
                   <h4 className="font-semibold text-lg text-dark mb-3.5">

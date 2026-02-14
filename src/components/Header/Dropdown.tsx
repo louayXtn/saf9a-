@@ -45,11 +45,19 @@ const Dropdown = ({ menuItem, stickyMenu }) => {
             : "xl:group-hover:translate-y-0"
         }`}
       >
+      {/* <ul
+  className={`dropdown ${dropdownToggler && "flex"} ${
+    stickyMenu ? "xl:group-hover:translate-y-0" : "xl:group-hover:translate-y-0"
+  } w-fit sm:w-full`}
+> */}
+
+
+
         {menuItem.submenu.map((item, i) => (
           <li key={i}>
             <Link
               href={item.path}
-              className={`flex text-custom-sm hover:text-blue hover:bg-gray-1 py-[7px] px-4.5 ${
+              className={`flex text-custom-sm hover:text-blue hover:bg-gray-1 py-[7px] px-2 ${
                 pathUrl === item.path && "text-blue bg-gray-1"
               } `}
             >

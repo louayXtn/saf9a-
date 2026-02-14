@@ -10,10 +10,10 @@ import { updateproductDetails } from "@/redux/features/product-details";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation";
 const ProductItem = ({ item }: { item: Product }) => {
   const { openModal } = useModalContext();
-
+  const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
   // update the QuickView state
@@ -23,13 +23,19 @@ const ProductItem = ({ item }: { item: Product }) => {
 
   // add to cart
   const handleAddToCart = () => {
-    dispatch(
-      addItemToCart({
-        ...item,
-        quantity: 1,
-      })
-    );
-  };
+  dispatch(
+    addItemToCart({
+      id: item.id ?? 0,              // لو عندك id محلي
+      productId: item._id!,          // من MongoDB
+      sellerId: item.createdBy._id,  // البائع من الـ backend
+      title: item.title,
+      price: item.price!,
+      discountedPrice: item.discountedPrice,
+      quantity: 1,
+      imgs: item.imgs,
+    })
+  );
+};
 
   const handleItemToWishList = () => {
     dispatch(
@@ -48,7 +54,7 @@ const ProductItem = ({ item }: { item: Product }) => {
   return (
     <div className="group">
       <div className="relative overflow-hidden flex items-center justify-center rounded-lg bg-[#F6F7FB] min-h-[270px] mb-4">
-        <Image src={item.imgs.previews[0]} alt="" width={250} height={250} />
+        <Image src={item.imgs?.previews?.[0]} alt="productImg" width={250} height={250} className=" object-cover w-[250px] h-[250px] rounded-lg"/>
 
         <div className="absolute left-0 bottom-0 translate-y-full w-full flex items-center justify-center gap-2.5 pb-5 ease-linear duration-200 group-hover:translate-y-0">
           <button
@@ -114,9 +120,34 @@ const ProductItem = ({ item }: { item: Product }) => {
           </button>
         </div>
       </div>
+    
+
+      {/* <p 
+  className="text-blue-600 cursor-pointer"
+  onClick={() => router.push(`/profile/${item.createdBy._id}`)}
+>
+  {item.createdBy.first_name} {item.createdBy.last_name}
+</p> */}
+<div 
+  className="flex items-center gap-2 cursor-pointer"
+  onClick={() => router.push(`/profile/${item.createdBy._id}`)}
+>
+  <Image
+    src={`/profile-images/${item.createdBy.profileImage}`} // الصورة من الباك إند
+    alt={`${item.createdBy.first_name} ${item.createdBy.last_name}`}
+    width={34}   // petit taille
+    height={34}  // petit taille
+    className="rounded-full object-cover"
+  />
+  <span className="text-blue-600 text-sm">
+    {item.createdBy.first_name} {item.createdBy.last_name}
+  </span>
+</div>
+<hr className="mb-2 mt-2"  />
 
       <div className="flex items-center gap-2.5 mb-2">
         <div className="flex items-center gap-1">
+            
           <Image
             src="/images/icons/icon-star.svg"
             alt="star icon"
@@ -156,13 +187,23 @@ const ProductItem = ({ item }: { item: Product }) => {
         className="font-medium text-dark ease-out duration-200 hover:text-blue mb-1.5"
         onClick={() => handleProductDetails()}
       >
-        <Link href="/shop-details"> {item.title} </Link>
+        <Link href="#"> {item.title} </Link>
       </h3>
 
-      <span className="flex items-center gap-2 font-medium text-lg">
+      {/* <span className="flex items-center gap-2 font-medium text-lg">
         <span className="text-dark">${item.discountedPrice}</span>
         <span className="text-dark-4 line-through">${item.price}</span>
-      </span>
+      </span> */}
+      <span className="flex items-center gap-2 font-medium text-lg">
+  {item.discountedPrice ? (
+    <>
+      <span className="text-dark">${item.discountedPrice}</span>
+      <span className="text-dark-4 line-through">${item.price}</span>
+    </>
+  ) : (
+    <span className="text-dark">${item.price}</span>
+  )}
+</span>
     </div>
   );
 };

@@ -28,20 +28,21 @@ const Hero = () => {
               <div className="w-full relative rounded-[10px] bg-white p-4 sm:p-7.5">
                 <div className="flex items-center gap-14">
                   <div>
-                    <h2 className="max-w-[153px] font-semibold text-dark text-xl mb-20">
-                      <a href="#"> iPhone 14 Plus & 14 Pro Max </a>
+                    <h2 className="max-w-[153px] font-semibold text-dark text-xl ">
+                      <a href="myProducts/add">sell your products right now </a>
                     </h2>
+                    <a href="myProducts/add" className="w-25 text-center inline-block font-medium text-custom-sm rounded-lg text-gray-1 bg-red-light p-3 mt-3 mb-3">sell now</a>
 
                     <div>
                       <p className="font-medium text-dark-4 text-custom-sm mb-1.5">
-                        limited time offer
+                        Start selling freely
                       </p>
                       <span className="flex items-center gap-3">
-                        <span className="font-medium text-heading-5 text-red">
-                          $699
+                        <span className="font-medium text-heading-5 text-green">
+                          Free
                         </span>
                         <span className="font-medium text-2xl text-dark-4 line-through">
-                          $999
+                          $$$
                         </span>
                       </span>
                     </div>
@@ -60,13 +61,13 @@ const Hero = () => {
               <div className="w-full relative rounded-[10px] bg-white p-4 sm:p-7.5">
                 <div className="flex items-center gap-14">
                   <div>
-                    <h2 className="max-w-[153px] font-semibold text-dark text-xl mb-20">
-                      <a href="#"> Wireless Headphone </a>
+                    <h2 className="max-w-[153px] font-semibold text-dark text-2xl mb-8">
+                      <a href="#"> saf9a market </a>
                     </h2>
 
                     <div>
                       <p className="font-medium text-dark-4 text-custom-sm mb-1.5">
-                        limited time offer
+                        Where Smart Shopping Begins
                       </p>
                       <span className="flex items-center gap-3">
                         <span className="font-medium text-heading-5 text-red">

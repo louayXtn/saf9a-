@@ -46,7 +46,7 @@ const HeroCarousal = () => {
             </p>
 
             <a
-              href="#"
+              href="shop-with-sidebar"
               className="inline-flex font-medium text-white text-custom-sm rounded-md bg-dark py-3 px-9 ease-out duration-200 hover:bg-blue mt-10"
             >
               Shop Now
@@ -55,7 +55,7 @@ const HeroCarousal = () => {
 
           <div>
             <Image
-              src="/images/hero/hero-01.png"
+              src="/images/hero/hero-00.png"
               alt="headphone"
               width={351}
               height={358}
@@ -88,7 +88,7 @@ const HeroCarousal = () => {
             </p>
 
             <a
-              href="#"
+              href="shop-with-sidebar"
               className="inline-flex font-medium text-white text-custom-sm rounded-md bg-dark py-3 px-9 ease-out duration-200 hover:bg-blue mt-10"
             >
               Shop Now
@@ -97,7 +97,7 @@ const HeroCarousal = () => {
 
           <div>
             <Image
-              src="/images/hero/hero-01.png"
+              src="/images/hero/hero-00.png"
               alt="headphone"
               width={351}
               height={358}

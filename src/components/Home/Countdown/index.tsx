@@ -8,7 +8,7 @@ const CounDown = () => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
 
-  const deadline = "December, 31, 2024";
+  const deadline = "november, 31, 2026";
 
   const getTime = () => {
     const time = Date.parse(deadline) - Date.now();
@@ -36,10 +36,10 @@ const CounDown = () => {
             </span>
 
             <h2 className="font-bold text-dark text-xl lg:text-heading-4 xl:text-heading-3 mb-3">
-              Enhance Your Music Experience
+              the verified account is coming soon
             </h2>
 
-            <p>The Havit H206d is a wired PC headphone.</p>
+            <p>stay tuned for the verified account feature and more exciting updates!</p>
 
             {/* <!-- Countdown timer --> */}
             <div
@@ -103,12 +103,12 @@ const CounDown = () => {
             </div>
             {/* <!-- Countdown timer ends --> */}
 
-            <a
+            {/* <a
               href="#"
               className="inline-flex font-medium text-custom-sm text-white bg-blue py-3 px-9.5 rounded-md ease-out duration-200 hover:bg-blue-dark mt-7.5"
             >
-              Check it Out!
-            </a>
+              verify Now
+            </a> */}
           </div>
 
           {/* <!-- bg shapes --> */}
@@ -120,11 +120,11 @@ const CounDown = () => {
             height={482}
           />
           <Image
-            src="/images/countdown/countdown-01.png"
+            src="/images/countdown/verified-01.png"
             alt="product"
-            className="hidden lg:block absolute right-4 xl:right-33 bottom-4 xl:bottom-10 -z-1"
-            width={411}
-            height={376}
+            className="hidden lg:block absolute right-25 xl:right-33 bottom-5 xl:bottom-5 -z-1 "
+            width={311}
+            height={276}
           />
         </div>
       </div>

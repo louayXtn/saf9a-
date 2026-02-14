@@ -9,10 +9,11 @@ import { addItemToCart } from "@/redux/features/cart-slice";
 import Image from "next/image";
 import Link from "next/link";
 import { addItemToWishlist } from "@/redux/features/wishlist-slice";
-
+import { useRouter } from "next/navigation";
 const SingleItem = ({ item }: { item: Product }) => {
   const { openModal } = useModalContext();
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
 
   // update the QuickView state
   const handleQuickViewUpdate = () => {
@@ -23,8 +24,14 @@ const SingleItem = ({ item }: { item: Product }) => {
   const handleAddToCart = () => {
     dispatch(
       addItemToCart({
-        ...item,
+        id: item.id ?? 0,              // لو عندك id محلي
+        productId: item._id!,          // من MongoDB
+        sellerId: item.createdBy._id,  // البائع من الـ backend
+        title: item.title,
+        price: item.price!,
+        discountedPrice: item.discountedPrice,
         quantity: 1,
+        imgs: item.imgs,
       })
     );
   };
@@ -41,10 +48,34 @@ const SingleItem = ({ item }: { item: Product }) => {
 
   return (
     <div className="group">
-      <div className="relative overflow-hidden rounded-lg bg-[#F6F7FB] min-h-[403px]">
+      <div className="relative overflow-hidden rounded-lg  bg-[#F6F7FB] min-h-[403px]">
         <div className="text-center px-4 py-7.5">
+          {item.createdBy && (
+  <div
+    className="flex items-center gap-2 cursor-pointer"
+    onClick={() => router.push(`/profile/${item.createdBy._id}`)}
+  >
+    <Image
+      src={`/profile-images/${item.createdBy.profileImage}`}
+      alt={`${item.createdBy.first_name} ${item.createdBy.last_name}`}
+      width={34}
+      height={34}
+      className="rounded-full object-cover"
+    />
+    <span className="text-blue-600 text-sm">
+      {item.createdBy.first_name} {item.createdBy.last_name}
+    </span>
+    
+  </div>
+  
+  
+)}
+<hr className="mb-2 mt-2"  />
           <div className="flex items-center justify-center gap-2.5 mb-2">
             <div className="flex items-center gap-1">
+              
+
+
               <Image
                 src="/images/icons/icon-star.svg"
                 alt="star icon"
@@ -84,14 +115,24 @@ const SingleItem = ({ item }: { item: Product }) => {
             <Link href="/shop-details"> {item.title} </Link>
           </h3>
 
-          <span className="flex items-center justify-center gap-2 font-medium text-lg">
+          {/* <span className="flex items-center justify-center gap-2 font-medium text-lg">
             <span className="text-dark">${item.discountedPrice}</span>
             <span className="text-dark-4 line-through">${item.price}</span>
-          </span>
+          </span> */}
+          <span className="flex items-center justify-center gap-2 font-medium text-lg">
+  {item.discountedPrice ? (
+    <>
+      <span className="text-dark">${item.discountedPrice}</span>
+      <span className="text-dark-4 line-through">${item.price}</span>
+    </>
+  ) : (
+    <span className="text-dark">${item.price}</span>
+  )}
+</span>
         </div>
 
         <div className="flex justify-center items-center">
-          <Image src={item.imgs.previews[0]} alt="" width={280} height={280} />
+          <Image src={item.imgs.previews[0]} alt="" width={280} height={280} className=" object-cover w-[250px] h-[250px] rounded-lg"/>
         </div>
 
         <div className="absolute right-0 bottom-0 translate-x-full u-w-full flex flex-col gap-2 p-5.5 ease-linear duration-300 group-hover:translate-x-0">

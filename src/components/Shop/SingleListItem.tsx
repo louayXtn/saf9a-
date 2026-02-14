@@ -10,11 +10,11 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import Link from "next/link";
 import Image from "next/image";
-
+import { useRouter } from "next/navigation";
 const SingleListItem = ({ item }: { item: Product }) => {
   const { openModal } = useModalContext();
   const dispatch = useDispatch<AppDispatch>();
-
+  const router = useRouter();
   // update the QuickView state
   const handleQuickViewUpdate = () => {
     dispatch(updateQuickView({ ...item }));
@@ -24,8 +24,14 @@ const SingleListItem = ({ item }: { item: Product }) => {
   const handleAddToCart = () => {
     dispatch(
       addItemToCart({
-        ...item,
+        id: item.id ?? 0,              // لو عندك id محلي
+        productId: item._id!,          // من MongoDB
+        sellerId: item.createdBy._id,  // البائع من الـ backend
+        title: item.title,
+        price: item.price!,
+        discountedPrice: item.discountedPrice,
         quantity: 1,
+        imgs: item.imgs,
       })
     );
   };
@@ -109,10 +115,10 @@ const SingleListItem = ({ item }: { item: Product }) => {
           </div>
         </div>
 
-        <div className="w-full flex flex-col gap-5 sm:flex-row sm:items-center justify-center sm:justify-between py-5 px-4 sm:px-7.5 lg:pl-11 lg:pr-12">
+        {/* <div className="w-full flex flex-col gap-5 sm:flex-row sm:items-center justify-center sm:justify-between py-5 px-4 sm:px-7.5 lg:pl-11 lg:pr-12">
           <div>
             <h3 className="font-medium text-dark ease-out duration-200 hover:text-blue mb-1.5">
-              <Link href="/shop-details"> {item.title} </Link>
+              <Link href="/#"> {item.title} </Link>
             </h3>
 
             <span className="flex items-center gap-2 font-medium text-lg">
@@ -157,7 +163,60 @@ const SingleListItem = ({ item }: { item: Product }) => {
 
             <p className="text-custom-sm">({item.reviews})</p>
           </div>
-        </div>
+        </div> */}
+        <div className="w-full flex flex-col gap-3 py-5 px-4 sm:px-7.5 lg:pl-11 lg:pr-12">
+  
+  {/* البائع في السطر الأول */}
+  {item.createdBy && (
+    <div
+      className="flex items-center gap-2  sm:pt-10 cursor-pointer "
+      onClick={() => router.push(`/profile/${item.createdBy._id}`)}
+    >
+      <Image
+        src={`/profile-images/${item.createdBy.profileImage}`}
+        alt={`${item.createdBy.first_name} ${item.createdBy.last_name}`}
+        width={44}
+        height={44}
+        className="rounded-full object-cover"
+      />
+      <span className="text-blue-600 sm:text-lg">
+        {item.createdBy.first_name} {item.createdBy.last_name}
+      </span>
+    </div>
+  )}
+  <hr  />
+
+  {/* العنوان + السعر + التقييم في نفس السطر */}
+  <div className="w-full flex flex-col gap-5 sm:flex-row sm:items-center justify-center sm:justify-between">
+    <div>
+      <h3 className="font-medium text-dark ease-out duration-200 hover:text-blue mb-1.5">
+        {item.title}
+      </h3>
+
+      <span className="flex items-center gap-2 font-medium text-lg">
+  {item.discountedPrice ? (
+    <>
+      <span className="text-dark">${item.discountedPrice}</span>
+      <span className="text-dark-4 line-through">${item.price}</span>
+    </>
+  ) : (
+    <span className="text-dark">${item.price}</span>
+  )}
+</span>
+    </div>
+
+    <div className="flex items-center gap-2.5 mb-2">
+      <div className="flex items-center gap-1">
+        <Image src="/images/icons/icon-star.svg" alt="star icon" width={15} height={15} />
+        <Image src="/images/icons/icon-star.svg" alt="star icon" width={15} height={15} />
+        <Image src="/images/icons/icon-star.svg" alt="star icon" width={15} height={15} />
+        <Image src="/images/icons/icon-star.svg" alt="star icon" width={15} height={15} />
+        <Image src="/images/icons/icon-star.svg" alt="star icon" width={15} height={15} />
+      </div>
+      <p className="text-custom-sm">({item.reviews})</p>
+    </div>
+  </div>
+</div>
       </div>
     </div>
   );

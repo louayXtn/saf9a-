@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig = {
+  images: {
+    domains: ["ik.imagekit.io"], // السماح بعرض الصور من Cloudinary
+  },
+};
 
 module.exports = nextConfig;

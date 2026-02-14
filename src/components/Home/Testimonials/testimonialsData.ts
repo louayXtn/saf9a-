@@ -1,48 +1,44 @@
 import { Testimonial } from "@/types/testimonial";
 
+
+
 const testimonialsData: Testimonial[] = [
   {
-    review: `Lorem ipsum dolor sit amet, adipiscing elit. Donec
-    malesuada justo vitaeaugue suscipit beautiful vehicula`,
-    authorName: "Davis Dorwart",
+    review: `A wonderful experience! I easily found the car I was looking for.
+    I recommend anyone who wants to buy a vehicle to try the platform.`,
+    authorName: "Ahmed Ben Youssef",
     authorImg: "/images/users/user-01.jpg",
-    authorRole: "Serial Entrepreneur",
+    authorRole: "Car Buyer",
   },
   {
-    review: `Lorem ipsum dolor sit amet, adipiscing elit. Donec
-    malesuada justo vitaeaugue suscipit beautiful vehicula`,
-    authorName: "Wilson Dias",
+    review: `I bought a new phone from the electronics section, it arrived on time
+    and in excellent condition. Customer service was very responsive.`,
+    authorName: "Sarah Ayari",
     authorImg: "/images/users/user-02.jpg",
-    authorRole: "Backend Developer",
+    authorRole: "Software Engineer",
   },
   {
-    review: `Lorem ipsum dolor sit amet, adipiscing elit. Donec
-    malesuada justo vitaeaugue suscipit beautiful vehicula`,
-    authorName: "Miracle Exterm",
+    review: `The fashion section is amazing! The clothes are authentic and the prices are reasonable.
+    I loved the shopping experience here and will definitely repeat it.`,
+    authorName: "Mariam Karray",
     authorImg: "/images/users/user-03.jpg",
-    authorRole: "Serial Entrepreneur",
+    authorRole: "Fashion Designer",
   },
   {
-    review: `Lorem ipsum dolor sit amet, adipiscing elit. Donec
-    malesuada justo vitaeaugue suscipit beautiful vehicula`,
-    authorName: "Thomas Frank",
-    authorImg: "/images/users/user-01.jpg",
+    review: `I bought a modern TV, the experience was very smooth.
+    The platform is trustworthy.`,
+    authorName: "Khaled Mansour",
+    authorImg: "/images/users/user-04.jpg",
     authorRole: "Entrepreneur",
   },
   {
-    review: `Lorem ipsum dolor sit amet, adipiscing elit. Donec
-    malesuada justo vitaeaugue suscipit beautiful vehicula`,
-    authorName: "Dave Smith",
-    authorImg: "/images/users/user-02.jpg",
-    authorRole: "Serial Entrepreneur",
-  },
-  {
-    review: `Lorem ipsum dolor sit amet, adipiscing elit. Donec
-    malesuada justo vitaeaugue suscipit beautiful vehicula`,
-    authorName: "Davis Dorwart",
-    authorImg: "/images/users/user-03.jpg",
-    authorRole: "Serial Entrepreneur",
+    review: `I loved the variety of products, from home essentials to electronics,
+    everything is available in one place. A great marketplace for shopping.`,
+    authorName: "Leila Ben Ramadan",
+    authorImg: "/profile-images/image6.png",
+    authorRole: "Homemaker",
   },
 ];
+
 
 export default testimonialsData;

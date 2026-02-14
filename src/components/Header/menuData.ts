@@ -41,7 +41,7 @@ export const menuData: Menu[] = [
         id: 64,
         title: "Checkout",
         newTab: false,
-        path: "/checkout",
+        path: "/cart",
       },
       {
         id: 65,
@@ -79,50 +79,45 @@ export const menuData: Menu[] = [
         newTab: false,
         path: "/contact",
       },
-      {
-        id: 62,
-        title: "Error",
-        newTab: false,
-        path: "/error",
-      },
-      {
-        id: 63,
-        title: "Mail Success",
-        newTab: false,
-        path: "/mail-success",
-      },
+      // {
+      //   id: 62,
+      //   title: "Error",
+      //   newTab: false,
+      //   path: "/error",
+      // },
+      // {
+      //   id: 63,
+      //   title: "Mail Success",
+      //   newTab: false,
+      //   path: "/mail-success",
+      // },
     ],
   },
   {
     id: 7,
-    title: "blogs",
+    title: "my products",
     newTab: false,
     path: "/",
     submenu: [
       {
         id: 71,
-        title: "Blog Grid with sidebar",
+        title: "add product",
         newTab: false,
-        path: "/blogs/blog-grid-with-sidebar",
+        path: "/myProducts/add",
       },
-      {
-        id: 72,
-        title: "Blog Grid",
-        newTab: false,
-        path: "/blogs/blog-grid",
-      },
+      // {
+      //   id: 72,
+      //   title: "delete product",
+      //   newTab: false,
+      //   path: "/myProducts/delete",
+      // },
       {
         id: 73,
-        title: "Blog details with sidebar",
+        title: "orders",
         newTab: false,
-        path: "/blogs/blog-details-with-sidebar",
+        path: "/myProducts/Orders",
       },
-      {
-        id: 74,
-        title: "Blog details",
-        newTab: false,
-        path: "/blogs/blog-details",
-      },
+      
     ],
   },
 ];

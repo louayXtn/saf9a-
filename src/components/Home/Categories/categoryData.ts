@@ -1,43 +1,47 @@
+
+
 const data = [
   {
-    title: "Televisions",
+    title: "Electronics",
     id: 1,
-    img: "/images/categories/categories-01.png",
+    img: "/images/categories/electronics.png",
+    href: "/category/electronics", // 👈 الرابط
   },
   {
-    title: "Laptop & PC",
+    title: "Fashion",
     id: 2,
-    img: "/images/categories/categories-02.png",
+    img: "/images/categories/fashion.png",
+    href: "/category/fashion",
   },
   {
-    title: "Mobile & Tablets",
+    title: "Home & Furniture",
     id: 3,
-    img: "/images/categories/categories-03.png",
+    img: "/images/categories/home-furniture.png",
+    href: "/category/home-furniture",
   },
   {
-    title: "Games & Videos",
+    title: "vehicles",
     id: 4,
-    img: "/images/categories/categories-04.png",
+    img: "/images/categories/vehicles.png",
+    href: "/category/vehicles",
   },
   {
-    title: "Home Appliances",
+    title: "equipments",
     id: 5,
-    img: "/images/categories/categories-05.png",
+    img: "/images/categories/equipments.png",
+    href: "/category/equipments",
   },
   {
-    title: "Health & Sports",
+    title: "animals",
     id: 6,
-    img: "/images/categories/categories-06.png",
+    img: "/images/categories/animals.png",
+    href: "/category/animals",
   },
   {
-    title: "Watches",
+    title: "home & kitchen",
     id: 7,
-    img: "/images/categories/categories-07.png",
-  },
-  {
-    title: "Televisions",
-    id: 8,
-    img: "/images/categories/categories-04.png",
+    img: "/images/categories/home-appliances.png",
+    href: "/category/home-appliances",
   },
 ];
 

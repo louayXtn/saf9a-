@@ -25,7 +25,7 @@ const BlogItem = ({ blog }: { blog: BlogItem }) => {
             {blog.date}
           </a>
 
-          {/* <!-- divider --> */}
+
           <span className="block w-px h-4 bg-gray-4"></span>
 
           <a

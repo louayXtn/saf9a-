@@ -10,12 +10,81 @@ import PriceDropdown from "./PriceDropdown";
 import shopData from "../Shop/shopData";
 import SingleGridItem from "../Shop/SingleGridItem";
 import SingleListItem from "../Shop/SingleListItem";
-
+import { useAppSelector } from "@/redux/store";
+import Pagination from "../Common/Pagination";
 const ShopWithSidebar = () => {
   const [productStyle, setProductStyle] = useState("grid");
   const [productSidebar, setProductSidebar] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
+  // const [products, setProducts] = useState([]);
+  // const [originalProducts, setOriginalProducts] = useState([]);
+  const products = useAppSelector(state => state.productsReducer.products);
+  const originalProducts = useAppSelector(state => state.productsReducer.originalProducts);
+  // const [filteredProducts, setFilteredProducts] = useState(products);
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
 
+  // كل ما تتغير المنتجات في الـ Redux، نحدث الـ filteredProducts
+  useEffect(() => {
+    setFilteredProducts(products);
+  }, [products]);
+
+
+  
+  
+  // pagination logic
+  const productsPerPage = 10; // عدد المنتجات  حسب رغبتك
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // أولاً نحسب العدد الكلي للصفحات
+  const realTotalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+  // بعدين نحدد العدد اللي نعرضه في الـ Pagination
+  // إذا أكثر من 5 صفحات → نخليها 5 فقط
+  const totalPages = Math.min(realTotalPages, 5);
+
+  // الآن نحدد بداية ونهاية المنتجات حسب الصفحة الحالية
+  let indexOfFirstProduct: number;
+  let indexOfLastProduct: number;
+
+  if (currentPage === 5 && realTotalPages > 5) {
+    // الصفحة الخامسة تعرض كل الباقي
+    indexOfFirstProduct = (currentPage - 1) * productsPerPage;
+    indexOfLastProduct = filteredProducts.length;
+  } else {
+    indexOfLastProduct = currentPage * productsPerPage;
+    indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  }
+
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  // pagination logic end
+
+
+
+
+// useEffect(() => {
+//   const fetchProducts = async () => {
+//     try {
+//       const res = await apiFetch("/products"); // أو fetch
+//       const data = await res.json();
+
+//       // نعمل normalize للبيانات: نضيف id = _id
+//       const normalized = (data.products || data).map((item: any) => ({
+//         ...item,
+//         id: item._id, // انسخ _id في id
+//       }));
+
+//       setProducts(normalized);
+//       setOriginalProducts(normalized);
+//     } catch (error) {
+//       console.error("Error fetching products:", error);
+//     }
+//   };
+
+//   fetchProducts();
+// }, []);
   const handleStickyMenu = () => {
     if (window.scrollY >= 80) {
       setStickyMenu(true);
@@ -25,58 +94,20 @@ const ShopWithSidebar = () => {
   };
 
   const options = [
-    { label: "Latest Products", value: "0" },
-    { label: "Best Selling", value: "1" },
     { label: "Old Products", value: "2" },
+    { label: "Latest Products", value: "0" },
+    
   ];
 
   const categories = [
-    {
-      name: "Desktop",
-      products: 10,
-      isRefined: true,
-    },
-    {
-      name: "Laptop",
-      products: 12,
-      isRefined: false,
-    },
-    {
-      name: "Monitor",
-      products: 30,
-      isRefined: false,
-    },
-    {
-      name: "UPS",
-      products: 23,
-      isRefined: false,
-    },
-    {
-      name: "Phone",
-      products: 10,
-      isRefined: false,
-    },
-    {
-      name: "Watch",
-      products: 13,
-      isRefined: false,
-    },
-  ];
-
-  const genders = [
-    {
-      name: "Men",
-      products: 10,
-    },
-    {
-      name: "Women",
-      products: 23,
-    },
-    {
-      name: "Unisex",
-      products: 8,
-    },
-  ];
+  { name: "Vehicles" },
+  { name: "Equipments" },
+  { name: "Electronics" },
+  { name: "Home & Furniture" },
+  { name: "Fashion" },
+  { name: "Animals" },
+  { name: "Home & Kitchen" },
+];
 
   useEffect(() => {
     window.addEventListener("scroll", handleStickyMenu);
@@ -152,24 +183,25 @@ const ShopWithSidebar = () => {
                   <div className="bg-white shadow-1 rounded-lg py-4 px-5">
                     <div className="flex items-center justify-between">
                       <p>Filters:</p>
-                      <button className="text-blue">Clean All</button>
+                      {/* <button className="text-blue">Clean All</button> */}
                     </div>
                   </div>
 
                   {/* <!-- category box --> */}
-                  <CategoryDropdown categories={categories} />
+                  <CategoryDropdown productSidebar={productSidebar} setProductSidebar={setProductSidebar} productStyle={productStyle} setProductStyle={setProductStyle} setFilteredProducts={ setFilteredProducts}
+ categories={categories} />
 
                   {/* <!-- gender box --> */}
-                  <GenderDropdown genders={genders} />
+                  {/* <GenderDropdown genders={genders} /> */}
 
                   {/* // <!-- size box --> */}
-                  <SizeDropdown />
+                  {/* <SizeDropdown /> */}
 
                   {/* // <!-- color box --> */}
-                  <ColorsDropdwon />
+                  {/* <ColorsDropdwon /> */}
 
                   {/* // <!-- price range box --> */}
-                  <PriceDropdown />
+                  {/* <PriceDropdown /> */}
                 </div>
               </form>
             </div>
@@ -181,10 +213,11 @@ const ShopWithSidebar = () => {
                 <div className="flex items-center justify-between">
                   {/* <!-- top bar left --> */}
                   <div className="flex flex-wrap items-center gap-4">
-                    <CustomSelect options={options} />
+                    {/* <CustomSelect options={options} /> */}
+                    
 
                     <p>
-                      Showing <span className="text-dark">9 of 50</span>{" "}
+                      Showing <span className="text-dark">10 of all </span>{" "}
                       Products
                     </p>
                   </div>
@@ -242,7 +275,7 @@ const ShopWithSidebar = () => {
                         productStyle === "list"
                           ? "bg-blue border-blue text-white"
                           : "text-dark bg-gray-1 border-gray-3"
-                      } flex items-center justify-center w-10.5 h-9 rounded-[5px] border ease-out duration-200 hover:bg-blue hover:border-blue hover:text-white`}
+                      } hidden sm:flex items-center justify-center w-10.5 h-9 rounded-[5px] border ease-out duration-200 hover:bg-blue hover:border-blue hover:text-white`}
                     >
                       <svg
                         className="fill-current"
@@ -278,7 +311,7 @@ const ShopWithSidebar = () => {
                     : "flex flex-col gap-7.5"
                 }`}
               >
-                {shopData.map((item, key) =>
+                {currentProducts.map((item, key) =>
                   productStyle === "grid" ? (
                     <SingleGridItem item={item} key={key} />
                   ) : (
@@ -288,122 +321,14 @@ const ShopWithSidebar = () => {
               </div>
               {/* <!-- Products Grid Tab Content End --> */}
 
-              {/* <!-- Products Pagination Start --> */}
-              <div className="flex justify-center mt-15">
-                <div className="bg-white shadow-1 rounded-md p-2">
-                  <ul className="flex items-center">
-                    <li>
-                      <button
-                        id="paginationLeft"
-                        aria-label="button for pagination left"
-                        type="button"
-                        disabled
-                        className="flex items-center justify-center w-8 h-9 ease-out duration-200 rounded-[3px disabled:text-gray-4"
-                      >
-                        <svg
-                          className="fill-current"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 18 18"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M12.1782 16.1156C12.0095 16.1156 11.8407 16.0594 11.7282 15.9187L5.37197 9.45C5.11885 9.19687 5.11885 8.80312 5.37197 8.55L11.7282 2.08125C11.9813 1.82812 12.3751 1.82812 12.6282 2.08125C12.8813 2.33437 12.8813 2.72812 12.6282 2.98125L6.72197 9L12.6563 15.0187C12.9095 15.2719 12.9095 15.6656 12.6563 15.9187C12.4876 16.0312 12.347 16.1156 12.1782 16.1156Z"
-                            fill=""
-                          />
-                        </svg>
-                      </button>
-                    </li>
+             {/* <!-- Products Pagination Start --> */}
 
-                    <li>
-                      <a
-                        href="#"
-                        className="flex py-1.5 px-3.5 duration-200 rounded-[3px] bg-blue text-white hover:text-white hover:bg-blue"
-                      >
-                        1
-                      </a>
-                    </li>
-
-                    <li>
-                      <a
-                        href="#"
-                        className="flex py-1.5 px-3.5 duration-200 rounded-[3px] hover:text-white hover:bg-blue"
-                      >
-                        2
-                      </a>
-                    </li>
-
-                    <li>
-                      <a
-                        href="#"
-                        className="flex py-1.5 px-3.5 duration-200 rounded-[3px] hover:text-white hover:bg-blue"
-                      >
-                        3
-                      </a>
-                    </li>
-
-                    <li>
-                      <a
-                        href="#"
-                        className="flex py-1.5 px-3.5 duration-200 rounded-[3px] hover:text-white hover:bg-blue"
-                      >
-                        4
-                      </a>
-                    </li>
-
-                    <li>
-                      <a
-                        href="#"
-                        className="flex py-1.5 px-3.5 duration-200 rounded-[3px] hover:text-white hover:bg-blue"
-                      >
-                        5
-                      </a>
-                    </li>
-
-                    <li>
-                      <a
-                        href="#"
-                        className="flex py-1.5 px-3.5 duration-200 rounded-[3px] hover:text-white hover:bg-blue"
-                      >
-                        ...
-                      </a>
-                    </li>
-
-                    <li>
-                      <a
-                        href="#"
-                        className="flex py-1.5 px-3.5 duration-200 rounded-[3px] hover:text-white hover:bg-blue"
-                      >
-                        10
-                      </a>
-                    </li>
-
-                    <li>
-                      <button
-                        id="paginationLeft"
-                        aria-label="button for pagination left"
-                        type="button"
-                        className="flex items-center justify-center w-8 h-9 ease-out duration-200 rounded-[3px] hover:text-white hover:bg-blue disabled:text-gray-4"
-                      >
-                        <svg
-                          className="fill-current"
-                          width="18"
-                          height="18"
-                          viewBox="0 0 18 18"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M5.82197 16.1156C5.65322 16.1156 5.5126 16.0594 5.37197 15.9469C5.11885 15.6937 5.11885 15.3 5.37197 15.0469L11.2782 9L5.37197 2.98125C5.11885 2.72812 5.11885 2.33437 5.37197 2.08125C5.6251 1.82812 6.01885 1.82812 6.27197 2.08125L12.6282 8.55C12.8813 8.80312 12.8813 9.19687 12.6282 9.45L6.27197 15.9187C6.15947 16.0312 5.99072 16.1156 5.82197 16.1156Z"
-                            fill=""
-                          />
-                        </svg>
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+                maxVisible={5} // يظهر فقط 5 صفحات
+              />
               {/* <!-- Products Pagination End --> */}
             </div>
             {/* // <!-- Content End --> */}

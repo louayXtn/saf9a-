@@ -1,7 +1,53 @@
-import React from "react";
+"use client";
+import React , { useState } from "react";
 import Breadcrumb from "../Common/Breadcrumb";
-
+import { apiFetch } from "@/utils/api";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 const Contact = () => {
+  const [formData, setFormData] = useState({
+  first_name: "",
+  last_name: "",
+  subject: "",
+  phone: "",
+  message: "",
+});
+const router = useRouter();
+const [loading, setLoading] = useState(false);
+const [success, setSuccess] = useState<string | null>(null);
+const [error, setError] = useState<string | null>(null);
+const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  setFormData({ ...formData, [e.target.name]: e.target.value });
+};
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setLoading(true);
+  setError(null);
+  setSuccess(null);
+
+  try {
+    const res = await apiFetch("/contact/messages", {
+      method: "POST",
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      setSuccess("✅ تم إرسال الرسالة بنجاح");
+      toast.success("✅ تم إرسال الرسالة بنجاح");
+      router.push("/mail-success");
+      console.log(data);
+      setFormData({ first_name: "", last_name: "", subject: "", phone: "", message: "" });
+    } else {
+      setError(data.error || "❌ حدث خطأ أثناء الإرسال");
+      toast.error(data.error || "❌ حدث خطأ أثناء الإرسال");
+    }
+  } catch (err: any) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <>
       <Breadcrumb title={"Contact"} pages={["contact"]} />
@@ -87,7 +133,7 @@ const Contact = () => {
             </div>
 
             <div className="xl:max-w-[770px] w-full bg-white rounded-xl shadow-1 p-4 sm:p-7.5 xl:p-10">
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="flex flex-col lg:flex-row gap-5 sm:gap-8 mb-5">
                   <div className="w-full">
                     <label htmlFor="firstName" className="block mb-2.5">
@@ -96,8 +142,11 @@ const Contact = () => {
 
                     <input
                       type="text"
-                      name="firstName"
+                      name="first_name"
                       id="firstName"
+                      value={formData.first_name}
+                      onChange={handleChange}
+
                       placeholder="Jhon"
                       className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
                     />
@@ -110,8 +159,10 @@ const Contact = () => {
 
                     <input
                       type="text"
-                      name="lastName"
+                      name="last_name"
                       id="lastName"
+                      value={formData.last_name}
+                      onChange={handleChange}
                       placeholder="Deo"
                       className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
                     />
@@ -128,6 +179,8 @@ const Contact = () => {
                       type="text"
                       name="subject"
                       id="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
                       placeholder="Type your subject"
                       className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
                     />
@@ -142,6 +195,8 @@ const Contact = () => {
                       type="text"
                       name="phone"
                       id="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
                       placeholder="Enter your phone"
                       className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
                     />
@@ -157,17 +212,20 @@ const Contact = () => {
                     name="message"
                     id="message"
                     rows={5}
+                    value={formData.message}
+                    onChange={handleChange}
                     placeholder="Type your message"
                     className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full p-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
                   ></textarea>
                 </div>
 
                 <button
-                  type="submit"
-                  className="inline-flex font-medium text-white bg-blue py-3 px-7 rounded-md ease-out duration-200 hover:bg-blue-dark"
-                >
-                  Send Message
-                </button>
+  type="submit"
+  disabled={loading}
+  className="inline-flex font-medium text-white bg-blue py-3 px-7 rounded-md ease-out duration-200 hover:bg-blue-dark disabled:opacity-50"
+>
+  {loading ? " message sending..." : " send Message"}
+</button>
               </form>
             </div>
           </div>
