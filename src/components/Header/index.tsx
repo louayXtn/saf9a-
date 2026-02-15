@@ -33,12 +33,12 @@ const Header = () => {
   const { openModal } = useModalContext();
 
 
-  const [admin, setAdmin] = useState(null);
+ /*  const [admin, setAdmin] = useState(null);
   useEffect(() => {
   const tokenPayload = getUserFromToken();
   setAdmin(tokenPayload || null);
   
-}, []);
+}, []); */
    useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
@@ -495,7 +495,7 @@ const Header = () => {
     )}
 
     {/* القائمة الخاصة بالأدمن */}
-    {admin?.isAdmin &&
+    {user?.isAdmin &&
       adminData.map((adminItem) =>
         adminItem.submenu ? (
           <Dropdown

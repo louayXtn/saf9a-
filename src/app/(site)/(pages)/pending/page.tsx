@@ -14,22 +14,22 @@ import {
 } from "@heroicons/react/24/outline";
 import { Product } from "@/types/product";
 
-import { getUserFromToken } from "../../../../utils/auth"
-
+/* import { getUserFromToken } from "../../../../utils/auth" */
+import { useAppSelector } from "@/redux/store";
 
 import { useRouter } from "next/navigation";
 // interface Product {
 
 export default function PendingProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
-  const User = getUserFromToken();
+  const user = useAppSelector(state => state.authReducer.user);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
- /*  useEffect(() => {
-    if (!User?.isAdmin) {
+  useEffect(() => {
+    if (!user?.isAdmin) {
       router.push("/");
     }
-  }, []); */
+  }, []); 
 
   // جلب المنتجات المعلقة
   useEffect(() => {

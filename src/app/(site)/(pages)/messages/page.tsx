@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import { apiFetch } from "@/utils/api"; 
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { getUserFromToken } from "../../../../utils/auth"
+/* import { getUserFromToken } from "../../../../utils/auth" */
+import { useAppSelector } from "@/redux/store";
 interface Message {
   _id: string;
   first_name: string;
@@ -19,10 +20,10 @@ const MessagesPage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const User = getUserFromToken();
+  const user = useAppSelector(state => state.authReducer.user);
   // جلب الرسائل عند تحميل الصفحة
   useEffect(() => {
-    if (!User?.isAdmin) {
+    if (!user?.isAdmin) {
       router.push("/");
     }
   }, []);
