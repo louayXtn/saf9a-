@@ -25,11 +25,11 @@ export default function PendingProductsPage() {
   const User = getUserFromToken();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
+ /*  useEffect(() => {
     if (!User?.isAdmin) {
       router.push("/");
     }
-  }, []);
+  }, []); */
 
   // جلب المنتجات المعلقة
   useEffect(() => {
