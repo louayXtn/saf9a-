@@ -28,8 +28,8 @@ const user = useSelector((state: RootState) => state.authReducer.user);
 
   
  useEffect(() => {
-    const token = Cookies.get("token");
-    if (!token) {
+    
+    if (!user) {
       toast.error("❗ Please sign in first");
       setTimeout(() => {
         router.push("/signin");

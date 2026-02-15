@@ -157,23 +157,16 @@ export const Logout = async (dispatch: AppDispatch, router: any) => {
 
     // 2. مسح أي كوكيز غير HttpOnly
     Cookies.remove("access_token");
-    Cookies.remove("email");
-    Cookies.remove("first_name");
-    Cookies.remove("last_name");
-    Cookies.remove("contact");
-    Cookies.remove("address");
 
     // 3. نظّف الـ Redux state
     dispatch(clearUser());
 
-    // 4. عرض رسالة نجاح
-    toast.success("تم تسجيل الخروج بنجاح ✅");
 
-    // 5. إعادة التوجيه بعد ثانية ونصف
+    // . إعادة التوجيه بعد ثانية ونصف
     setTimeout(() => {
       router.push("/"); // ✅ بدل window.location.href
     }, 1500);
   } catch (err) {
-    toast.error("حدث خطأ أثناء تسجيل الخروج ❌");
+    toast.error("Error during logout ❌");
   }
 };

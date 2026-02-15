@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 import { apiFetch } from "@/utils/api";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-
+import { useAppSelector } from "@/redux/store";
 const categories = [
   { title: "Electronics", id: 1 },
   { title: "Fashion", id: 2 },
@@ -31,10 +31,10 @@ const AddProductPage = () => {
   const [loading, setLoading] = useState(false);
   const [previewThumbs, setPreviewThumbs] = useState<string[]>([]);
   const [previewPreviews, setPreviewPreviews] = useState<string[]>([]);
-  
+  const user = useAppSelector(state => state.authReducer.user);
   useEffect(() => {
-    const token = Cookies.get("token");
-    if (!token) {
+    
+    if (!user) {
       toast.error("❗ Please sign in to add a product");
       setTimeout(() => {
         router.push("/signin");
