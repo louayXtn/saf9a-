@@ -33,14 +33,14 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     const data = await res.json();
     if (data.success) {
-      setSuccess("✅ تم إرسال الرسالة بنجاح");
-      toast.success("✅ تم إرسال الرسالة بنجاح");
+      setSuccess("✅ message sent successfully");
+      toast.success("✅ message sent successfully");
       router.push("/mail-success");
       console.log(data);
       setFormData({ first_name: "", last_name: "", subject: "", phone: "", message: "" });
     } else {
-      setError(data.error || "❌ حدث خطأ أثناء الإرسال");
-      toast.error(data.error || "❌ حدث خطأ أثناء الإرسال");
+      setError(data.error || "❌ An error occurred while sending the message");
+      toast.error(data.error || "❌ An error occurred while sending the message");
     }
   } catch (err: any) {
     setError(err.message);
@@ -79,7 +79,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                         fill="#3C50E0"
                       />
                     </svg>
-                    Name: James Septimus
+                    Name: saf9a store
                   </p>
 
                   <p className="flex items-center gap-4">
@@ -126,7 +126,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                         fill="#3C50E0"
                       />
                     </svg>
-                    Address: 7398 Smoke Ranch RoadLas Vegas, Nevada 89128
+                    Address: 6020 elhamma, gabes, tunisia
                   </p>
                 </div>
               </div>

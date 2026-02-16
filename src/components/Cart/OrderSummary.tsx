@@ -1,74 +1,3 @@
-// import { selectTotalPrice } from "@/redux/features/cart-slice";
-// import { useAppSelector } from "@/redux/store";
-// import React from "react";
-// import { useSelector } from "react-redux";
-
-// const OrderSummary = () => {
-//   const cartItems = useAppSelector((state) => state.cartReducer.items);
-//   const totalPrice = useSelector(selectTotalPrice);
-
-//   return (
-//     <div className="lg:max-w-[455px] w-full">
-//       {/* <!-- order list box --> */}
-//       <div className="bg-white shadow-1 rounded-[10px]">
-//         <div className="border-b border-gray-3 py-5 px-4 sm:px-8.5">
-//           <h3 className="font-medium text-xl text-dark">Order Summary</h3>
-//         </div>
-
-//         <div className="pt-2.5 pb-8.5 px-4 sm:px-8.5">
-//           {/* <!-- title --> */}
-//           <div className="flex items-center justify-between py-5 border-b border-gray-3">
-//             <div>
-//               <h4 className="font-medium text-dark">Product</h4>
-//             </div>
-//             <div>
-//               <h4 className="font-medium text-dark text-right">Subtotal</h4>
-//             </div>
-//           </div>
-
-//           {/* <!-- product item --> */}
-//           {cartItems.map((item, key) => (
-//             <div key={key} className="flex items-center justify-between py-5 border-b border-gray-3">
-//               <div>
-//                 <p className="text-dark">{item.title}</p>
-//               </div>
-//               <div>
-//                 <p className="text-dark text-right">
-//                   ${item.discountedPrice * item.quantity}
-//                 </p>
-//               </div>
-//             </div>
-//           ))}
-
-//           {/* <!-- total --> */}
-//           <div className="flex items-center justify-between pt-5">
-//             <div>
-//               <p className="font-medium text-lg text-dark">Total</p>
-//             </div>
-//             <div>
-//               <p className="font-medium text-lg text-dark text-right">
-//                 ${totalPrice}
-//               </p>
-//             </div>
-//           </div>
-
-//           {/* <!-- checkout button --> */}
-//           <button
-//             type="submit"
-//             className="w-full flex justify-center font-medium text-white bg-blue py-3 px-6 rounded-md ease-out duration-200 hover:bg-blue-dark mt-7.5"
-//           >
-//             Process to Checkout
-//           </button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default OrderSummary;
-
-
-
 import { selectTotalPrice } from "@/redux/features/cart-slice";
 import { useAppSelector } from "@/redux/store";
 import React, { useState } from "react";
@@ -76,62 +5,71 @@ import { useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import { apiFetch } from "@/utils/api";
 import { RootState } from "@/redux/store";
+
 const OrderSummary = () => {
   const cartItems = useAppSelector((state) => state.cartReducer.items);
   const user = useSelector((state: RootState) => state.authReducer.user);
   const totalPrice = useSelector(selectTotalPrice);
 
-  // state لحفظ بيانات العميل
   const [customerInfo, setCustomerInfo] = useState({
     name: "",
     address: "",
     phone: "",
   });
 
-  // تحديث البيانات عند الكتابة
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCustomerInfo({ ...customerInfo, [e.target.name]: e.target.value });
   };
 
-  // إرسال الطلب
   const handleCheckout = async () => {
-    console.log("User state:", user);
-  if (!user) {
-    toast.error("Please log in to proceed with checkout.");
-    return;
-  }
-  try {
-    console.log("User state:", user);
-    const res = await apiFetch("/api/orders", {
+    if (!user) {
+      toast.error("Please log in to proceed with checkout.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const res = await apiFetch("/api/orders", {
         method: "POST",
         body: JSON.stringify({
           items: cartItems.map((item) => ({
-            productId: item.productId,          // من MongoDB
-            sellerId: item.sellerId,            // البائع
+            productId: item.productId,
+            sellerId: item.sellerId,
             title: item.title,
             price: item.price,
             discountedPrice: item.discountedPrice,
             quantity: item.quantity,
-            previewImg: item.imgs?.previews[0], // 👈 رابط الصورة (أول preview)
+            previewImg: item.imgs?.previews[0],
           })),
           customerInfo,
         }),
       });
 
+      const data = await res.json();
 
-    const data = await res.json();
-    console.log("Order created:", data);
-    if (res.ok) {
-      toast.success("Order submitted successfully!");
-    } else {
-      toast.error(data.error || "Failed to submit order");
+      if (res.ok) {
+        toast.success("Order submitted successfully!");
+
+        // تفريغ الحقول
+        setCustomerInfo({ name: "", address: "", phone: "" });
+
+        // بعد ثانيتين يرجع للصفحة الرئيسية
+        setTimeout(() => {
+          location.href = "/";
+        }, 2000);
+      } else {
+        toast.error(data.error || "Failed to submit order");
+      }
+    } catch (error) {
+      console.error("Error creating order:", error);
+      toast.error("Unexpected error");
+    } finally {
+      setIsSubmitting(false);
     }
-  } catch (error) {
-    console.error("Error creating order:", error);
-    toast.error("Unexpected error");
-  }
-};
-
+  };
 
   return (
     <div className="lg:max-w-[455px] w-full">
@@ -141,23 +79,22 @@ const OrderSummary = () => {
         </div>
 
         <div className="pt-2.5 pb-8.5 px-4 sm:px-8.5">
-          {/* قائمة المنتجات */}
           {cartItems.map((item, key) => (
             <div key={key} className="flex items-center justify-between py-5 border-b border-gray-3">
               <p className="text-dark">{item.title}</p>
               <p className="text-dark text-right">
-                ${item.discountedPrice && item.discountedPrice < item.price ? item.discountedPrice*item.quantity : item.price * item.quantity}
+                ${item.discountedPrice && item.discountedPrice < item.price
+                  ? item.discountedPrice * item.quantity
+                  : item.price * item.quantity}
               </p>
             </div>
           ))}
 
-          {/* المجموع */}
           <div className="flex items-center justify-between pt-5">
             <p className="font-medium text-lg text-dark">Total</p>
             <p className="font-medium text-lg text-dark text-right">${totalPrice}</p>
           </div>
 
-          {/* حقول إدخال بيانات العميل */}
           <div className="mt-6 space-y-4">
             <input
               type="text"
@@ -185,13 +122,15 @@ const OrderSummary = () => {
             />
           </div>
 
-          {/* زر الإرسال */}
           <button
             type="button"
             onClick={handleCheckout}
-            className="w-full flex justify-center font-medium text-white bg-blue py-3 px-6 rounded-md hover:bg-blue-dark mt-7.5"
+            disabled={isSubmitting}
+            className={`w-full flex justify-center font-medium text-white py-3 px-6 rounded-md mt-7.5 ${
+              isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-blue hover:bg-blue-dark"
+            }`}
           >
-            Process to Checkout
+            {isSubmitting ? "Submitting..." : "Process to Checkout"}
           </button>
         </div>
       </div>

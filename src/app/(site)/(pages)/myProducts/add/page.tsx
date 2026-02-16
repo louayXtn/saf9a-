@@ -61,7 +61,7 @@ const AddProductPage = () => {
         let combined = [...prev[field], ...newFiles];
 
         if (combined.length > 2) {
-          toast.error("❗ يمكنك رفع صورتين فقط");
+          toast.error("❗ You can only upload up to 2 images for each type.");
           combined = combined.slice(0, 2);
         }
 
@@ -85,7 +85,7 @@ const AddProductPage = () => {
     if (loading) return;
     setLoading(true);
     if(formData.previews.length === 0 || formData.thumbnails.length === 0){
-      toast.error("❗ الرجاء رفع الصور المطلوبة");
+      toast.error("❗ Please upload at least one thumbnail and one preview image.");
       setLoading(false);
       return;
     }
@@ -110,7 +110,7 @@ const AddProductPage = () => {
       });
       const data = await res.json();
 
-      toast.success("🎉 المنتج تمت إضافته بنجاح!");
+      toast.success("🎉  Product added successfully !");
 
       setFormData({
         title: "",
@@ -126,7 +126,7 @@ const AddProductPage = () => {
       setPreviewPreviews([]);
     } catch (err) {
       console.error("❌ Error:", err);
-      toast.error("حدث خطأ أثناء إضافة المنتج");
+      toast.error("An error occurred while adding the product");
     }
     finally {
       setLoading(false);
