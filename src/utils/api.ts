@@ -5,8 +5,8 @@ import { AppDispatch } from "@/redux/store";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/features/auth-slice";
 import { clearUser } from "@/redux/features/auth-slice";
-
-/* export const apiFetch = async (url: string, options: RequestInit = {}, retryCount = 0) => {
+/* 
+export const apiFetch = async (url: string, options: RequestInit = {}, retryCount = 0) => {
   const accessToken = Cookies.get("access_token");
 
   const isFormData = options.body instanceof FormData;

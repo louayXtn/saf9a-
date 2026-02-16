@@ -75,13 +75,13 @@ const handleReviewChange = (id: string, value: string) => {
 const handleApprove = async (id: string) => {
   const reviewsText = reviews[id];
   if (!reviewsText) {
-    toast.error("⚠️ الرجاء كتابة تقييم رقمي قبل القبول");
+    toast.error("⚠️ enter reviews before accept");
     return;
   }
 
   const reviewNumber = Number(reviewsText); // تحويل النص إلى رقم
   if (isNaN(reviewNumber)) {
-    toast.error("⚠️ يجب إدخال رقم صحيح");
+    toast.error("⚠️ enter a valid number for reviews");
     return;
   }
 
@@ -93,19 +93,19 @@ const handleApprove = async (id: string) => {
     });
     const data = await res.json();
     if (data.ok) {
-      toast.success("✅ تم قبول المنتج مع التقييم");
+      toast.success("✅ product approved successfully");
       setProducts(prev => prev.filter(p => p._id !== id));
     } else {
-      toast.error("❌ فشل قبول المنتج");
+      toast.error("❌ failed to approve product");
     }
   } catch (err) {
     console.error(err);
-    toast.error("❌ خطأ أثناء قبول المنتج");
+    toast.error("❌ Error while approving product");
   }
 };
   // رفض المنتج
   const handleReject = async (id: string) => {
-    const reason = prompt("أدخل سبب الرفض:");
+    const reason = prompt("enter rejection reason");
     if (!reason) return;
 
     try {
@@ -116,14 +116,14 @@ const handleApprove = async (id: string) => {
       });
       const data = await res.json();
       if (data.ok) {
-        toast.success("🚫 تم رفض المنتج");
+        toast.success("🚫 product rejected successfully");
         setProducts(prev => prev.filter(p => p._id !== id));
       } else {
-        toast.error("❌ فشل رفض المنتج");
+        toast.error("❌ failed to reject product");
       }
     } catch (err) {
       console.error(err);
-      toast.error("❌ خطأ أثناء رفض المنتج");
+      toast.error("❌ Error while rejecting product");
     }
   };
 
