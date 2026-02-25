@@ -2,11 +2,14 @@ import React from "react";
 import MailSuccess from "@/components/MailSuccess";
 
 import { Metadata } from "next";
-export const metadata: Metadata = {
-  title: "Mail Success Page | NextCommerce Nextjs E-commerce template",
-  description: "This is Mail Success Page for NextCommerce Template",
-  // other metadata
-};
+import { generateSEO } from "@/utils/seo";
+
+export const metadata: Metadata = generateSEO({
+  title: 'Message Sent Successfully | Saf9a Store',
+  description: 'Your message has been sent successfully. We\'ll get back to you soon.',
+  keywords: ['message sent', 'contact success', 'saf9a'],
+  url: 'https://saf9a.com/mail-success',
+});
 
 const MailSuccessPage = () => {
   return (

@@ -1,11 +1,14 @@
 import Contact from "@/components/Contact";
 
 import { Metadata } from "next";
-export const metadata: Metadata = {
-  title: "Contact Page | NextCommerce Nextjs E-commerce template",
-  description: "This is Contact Page for NextCommerce Template",
-  // other metadata
-};
+import { generateSEO } from "@/utils/seo";
+
+export const metadata: Metadata = generateSEO({
+  title: 'Contact Us - Get in Touch | Saf9a Store',
+  description: 'Have questions? Contact Saf9a Store customer support. We\'re here to help with your buying and selling experience on our marketplace.',
+  keywords: ['contact', 'customer support', 'help', 'saf9a contact', 'get in touch'],
+  url: 'https://saf9a.com/contact',
+});
 
 const ContactPage = () => {
   return (

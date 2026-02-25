@@ -4,8 +4,8 @@ import Image from "next/image";
 const featureData = [
   {
     img: "/images/icons/icon-01.svg",
-    title: "Free Shipping",
-    description: "For all orders $200",
+    title: "Fast shopping",
+    description: " online shopping experience",
   },
   {
     img: "/images/icons/icon-02.svg",
@@ -14,8 +14,8 @@ const featureData = [
   },
   {
     img: "/images/icons/icon-03.svg",
-    title: "100% Secure Payments",
-    description: "Gurantee secure payments",
+    title: "100% free ",
+    description: " free sale ",
   },
   {
     img: "/images/icons/icon-04.svg",

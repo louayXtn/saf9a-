@@ -2,11 +2,14 @@ import React from "react";
 import Cart from "@/components/Cart";
 
 import { Metadata } from "next";
-export const metadata: Metadata = {
-  title: "Cart Page | NextCommerce Nextjs E-commerce template",
-  description: "This is Cart Page for NextCommerce Template",
-  // other metadata
-};
+import { generateSEO } from "@/utils/seo";
+
+export const metadata: Metadata = generateSEO({
+  title: 'Shopping Cart | Saf9a Store',
+  description: 'Review your shopping cart and proceed to checkout on Saf9a marketplace.',
+  keywords: ['cart', 'shopping cart', 'checkout', 'saf9a'],
+  url: 'https://saf9a.com/cart',
+});
 
 const CartPage = () => {
   return (
