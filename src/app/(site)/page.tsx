@@ -19,7 +19,7 @@ export const metadata: Metadata = generateSEO({
     'used products',
     'new products',
     'deals',
-    'shopping platform',
+    'a shopping platform',
   ],
 });
 
