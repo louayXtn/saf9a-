@@ -21,7 +21,7 @@ export default function BreadcrumbWithSchema({ items }: BreadcrumbProps) {
       '@type': 'ListItem',
       position: index + 1,
       name: item.name,
-      ...(item.url && { item: `https://saf9a.com${item.url}` }),
+      ...(item.url && { item: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://saf9a.onrender.com'}${item.url}` }),
     })),
   };
 

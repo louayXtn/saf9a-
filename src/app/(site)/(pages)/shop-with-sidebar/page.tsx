@@ -4,12 +4,22 @@ import ShopWithSidebar from "@/components/ShopWithSidebar";
 import { Metadata } from "next";
 import { generateSEO } from "@/utils/seo";
 
-export const metadata: Metadata = generateSEO({
-  title: 'Shop - Browse All Products | Saf9a Store',
-  description: 'Browse and shop from thousands of products on Saf9a marketplace. Find electronics, fashion, home goods, and more at great prices. Filter by category, price, and more.',
-  keywords: ['shop', 'buy products', 'online store', 'marketplace', 'saf9a', 'browse products', 'deals'],
-  url: 'https://saf9a.com/shop-with-sidebar',
-});
+export const metadata: Metadata = {
+  ...generateSEO({
+    title: 'Shop All Products - Saf9a Marketplace',
+    description: 'Browse products with advanced filters on Saf9a. Find what you need easily with our sidebar navigation.',
+    keywords: ['shop', 'browse products', 'filter products', 'saf9a shop'],
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}/shop-with-sidebar`,
+  }),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+};
 
 const ShopWithSidebarPage = () => {
   return (

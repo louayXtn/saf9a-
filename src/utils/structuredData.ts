@@ -1,4 +1,4 @@
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://saf9a.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://saf9a.onrender.com';
 
 // Organization schema for the website
 export const organizationSchema = {

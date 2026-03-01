@@ -9,7 +9,7 @@ Disallow: /_next/
 Disallow: /private/
 
 # Sitemap location
-Sitemap: https://saf9a.com/sitemap.xml
+Sitemap: https://saf9a.onrender.com/sitemap.xml
 
 # Crawl-delay to be respectful to search engines
 Crawl-delay: 1

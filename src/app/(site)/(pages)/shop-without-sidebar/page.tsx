@@ -4,12 +4,22 @@ import ShopWithoutSidebar from "@/components/ShopWithoutSidebar";
 import { Metadata } from "next";
 import { generateSEO } from "@/utils/seo";
 
-export const metadata: Metadata = generateSEO({
-  title: 'Shop All Products | Saf9a Marketplace',
-  description: 'Discover amazing deals on Saf9a. Browse thousands of products from trusted sellers. Electronics, fashion, home goods, and more.',
-  keywords: ['shop', 'products', 'marketplace', 'saf9a', 'online shopping', 'deals'],
-  url: 'https://saf9a.com/shop-without-sidebar',
-});
+export const metadata: Metadata = {
+  ...generateSEO({
+    title: 'Browse Products - Saf9a',
+    description: 'Simple product browsing on Saf9a marketplace. View all available products easily.',
+    keywords: ['browse', 'products', 'saf9a'],
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}/shop-without-sidebar`,
+  }),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
+};
 
 const ShopWithoutSidebarPage = () => {
   return (

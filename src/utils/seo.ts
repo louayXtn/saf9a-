@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://saf9a.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://saf9a.onrender.com';
 const SITE_NAME = 'Saf9a Store';
 
 interface SEOProps {

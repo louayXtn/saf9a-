@@ -1,25 +1,35 @@
 import { MetadataRoute } from 'next';
 
 // Replace with your actual domain
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://saf9a.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://saf9a.onrender.com';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Static routes
+  // Static routes with proper priorities
+  const routePriorities: Record<string, number> = {
+    '': 1.0,                      // الصفحة الرئيسية - أعلى أولوية
+    '/shop-with-sidebar': 0.9,    // المرتبة الثانية
+    '/shop-without-sidebar': 0.9, // المرتبة الثانية
+    '/cart': 0.7,
+    '/checkout': 0.7,
+    '/contact': 0.8,
+    '/wishlist': 0.7,
+    '/my-account': 0.6,
+  };
+
   const routes = [
     '',
-    '/shop',
     '/shop-with-sidebar',
+    '/shop-without-sidebar',
     '/cart',
     '/checkout',
     '/contact',
-    '/blogs',
     '/wishlist',
     '/my-account',
   ].map((route) => ({
     url: `${SITE_URL}${route}`,
     lastModified: new Date().toISOString(),
-    changeFrequency: 'daily' as const,
-    priority: route === '' ? 1.0 : 0.8,
+    changeFrequency: (route === '' ? 'always' : route.includes('shop') ? 'hourly' : 'daily') as 'always' | 'hourly' | 'daily',
+    priority: routePriorities[route] || 0.5,
   }));
 
   // Dynamic product routes
