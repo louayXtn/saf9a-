@@ -6,9 +6,10 @@
 
 #### الخطوة 1: حذف Sitemap القديم
 1. افتح [Google Search Console](https://search.google.com/search-console)
-2. اختر موقعك: `saf9a.com`
+2. اختر موقعك: `saf9a.onrender.com` ⭐ (من الهام اختيار الـ domain الصحيح)
 3. من القائمة الجانبية، اختر **Sitemaps** (خرائط الموقع)
-4. ستجد sitemap موجود: `https://saf9a.com/sitemap.xml`
+4. ستجد sitemap موجود: `https://saf9a.com/sitemap.xml` (القديم - احذفه)
+5. إذا لم تجد sitemap قديم، انتقل مباشرة للخطوة 2
 5. انقر على الثلاث نقاط (...) بجانب الـ sitemap
 6. اختر **Delete sitemap** (حذف خريطة الموقع)
 7. أكد الحذف
@@ -16,9 +17,13 @@
 #### الخطوة 2: إضافة Sitemap الجديد
 1. في نفس صفحة **Sitemaps**
 2. في خانة "Add a new sitemap"
-3. اكتب: `sitemap.xml`
+3. اكتب الـ URL الكاملة: `https://saf9a.onrender.com/sitemap.xml` ⭐ (يجب أن تكون الـ URL كاملة)
 4. انقر على **Submit** (إرسال)
 5. انتظر بضع دقائق حتى يتم معالجة الـ sitemap
+
+**⚠️ ملاحظة مهمة**: 
+- استخدم `https://saf9a.onrender.com` وليس `saf9a.com`
+- تأكد من أن المتصفح يمكنه الوصول إلى `https://saf9a.onrender.com/sitemap.xml`
 
 #### النتيجة المتوقعة:
 - Status: **Success** (نجاح)
@@ -27,7 +32,7 @@
 
 ---
 
-### المرحلة 2: طلب فهرسة الصفحة الرئيسية (مهم جداً! ⭐⭐⭐)
+### المرحلة 2: طلب فهرسة الصفحة الرئيسonrender.com/` ⭐ (الـ domain الجديد)
 
 #### الخطوة 1: فحص الصفحة الرئيسية
 1. من القائمة الجانبية، اختر **URL Inspection** (فحص عنوان URL)
@@ -180,11 +185,27 @@ saf9a marketplace
 
 ## 📞 إذا احتجت مساعدة
 
-### مشكلة: "Sitemap could not be read"
+### مشكلة: "Sitemap could not be read" أو "Erreur HTTP générique"
 **الحل**:
-- تأكد من رفع الموقع للإنتاج
-- تأكد من أن `sitemap.xml` يعمل: `https://saf9a.com/sitemap.xml`
-- جرب في المتصفح مباشرة
+1. تأكد من أن الموقع يعمل على Render:
+   ```bash
+   # جرب في terminal:
+   curl https://saf9a.onrender.com/sitemap.xml
+   ```
+
+2. تأكد من أن `sitemap.xml` يعمل: جرب في المتصفح
+   ```
+   https://saf9a.onrender.com/sitemap.xml
+   ```
+   يجب أن ترى XML به URLs
+
+3. انتظر 5-10 دقائق إذا كان للتو deployed على Render
+
+4. حاول إعادة الإرسال بـ URL كاملة:
+   ```
+   https://saf9a.onrender.com/sitemap.xml
+   ```
+   وليس `sitemap.xml` فقط
 
 ### مشكلة: "URL is not on Google"
 **الحل**:
